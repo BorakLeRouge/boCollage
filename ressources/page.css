@@ -1,0 +1,75 @@
+body {
+    padding: 0 8px 0 20px ;
+}
+h2 {
+    position: relative ;
+}
+button.topBut {
+    display: inline-block ;
+    position: absolute ;
+    top: 0.3em ;
+    right: 0.33em ;
+    font-size: 0.5em;
+    padding: 0.1em 0.2em ;
+    margin: 0.1em 0.1em ;
+}
+.lien {
+    text-decoration: none ;
+    color: var(--vscode-textLink-foreground);
+    cursor: pointer ;
+}
+.lien:hover, .link:focus {
+    text-decoration: underline ;
+    color: var(--vscode-textLink-activeForeground) ;
+    background-color: var(--vscode-list-hoverBackground) ;
+}
+.lien2 {
+    text-decoration: none ;
+    cursor: pointer ;
+}
+.lien2:hover, .linkh2:focus {
+    text-decoration: underline ;
+    color: var(--vscode-textLink-activeForeground) ;
+    background-color: var(--vscode-list-hoverBackground) ;
+}
+ul {
+    padding-inline-start: 1.2em ;
+    overflow: hidden ;
+}
+li {
+    position: relative ;
+    margin: 0.1em 0.2em ;
+    white-space : nowrap;
+    text-overflow : ellipsis;
+}
+.centre {
+    text-align: center ;
+}
+button {
+    font-size: 0.9em;
+    background-color: var(--vscode-button-background) ;
+    color: var(--vscode-button-foreground) ;
+    border-style: none ;
+    border-radius: 0.3em ;
+    padding: 0.2em 0.5em ;
+    border: 1px solid var(--vscode-focusBorder, transparant) ;
+}
+button:hover {
+    background-color: var(--vscode-button-hoverBackground) ;
+}
+button:focus {
+    background-color: var(--vscode-button-hoverBackground) ;
+    outline-color: var(--vscode-focusBorder) ;
+    outline-offset: 2px ;
+}
+span.blocDroite {
+    display: inline-block ;
+    position: absolute ;
+    top: -0.1em ;
+    right: 0.2em ;
+}
+button.miniBut {
+    font-size: 0.70em;
+    padding: 0.1em 0.2em ;
+    margin: 0.1em 0.1em ;
+}
