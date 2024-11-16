@@ -31,13 +31,21 @@ const boColl = function(context) {
             webviewView.webview.options = {
                 // Allow scripts in the webview
                 enableScripts: true,
-                retainContextWhenHidden: true,
                 localResourceRoots: [
                     this._extensionUri
                 ]
             };
             webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
             webviewView.webview.onDidReceiveMessage(msg => {
+                // ===============================================================================================
+                //    A     CCC   TTTTT  III   OOO   N   N       M   M  EEEEE   SSS    SSS     A     GGG   EEEEE
+                //   A A   C   C    T     I   O   O  NN  N       MM MM  E      S      S       A A   G   G  E
+                //  A   A  C        T     I   O   O  N N N       M M M  EEE     SSS    SSS   A   A  G      EEE
+                //  AAAAA  C        T     I   O   O  N  NN       M   M  E          S      S  AAAAA  G  GG  E
+                //  A   A  C   C    T     I   O   O  N   N       M   M  E          S      S  A   A  G   G  E
+                //  A   A   CCC     T    III   OOO   N   N       M   M  EEEEE  SSSS   SSSS   A   A   GGGG  EEEEE
+                // ===============================================================================================
+                // * * * ACTION Message
                 if (msg.action == 'Affichage') {
                     affichage(webviewView.webview, msg) ;
                 }
@@ -94,21 +102,22 @@ async function PreparationAffichage(context, webview, dossierInit = '') {
 // ================================================
 // * * * Actions à traiter
 function affichage(webview, msg) {
-    if(msg.action == 'Affichage') {
+    if(msg.action == 'Affichage') {  clog('affichage '+msg.pos, msg)
         // Lecture du fichier
         if (msg.pos == 0) {
             msg.fichier = dossierDeStockage ;
         }
         dossBoColl[msg.pos] = new DossierBoCollage(msg.fichier, msg.pos) ;
-        if (dossBoColl[msg.pos].contenu != undefined) {
-            // PreparationAffichage(context, webviewView.webview) ;
-            let prep = dossBoColl[msg.pos].recupHTML ;
+        // PreparationAffichage(context, webviewView.webview) ;
+        let prep = dossBoColl[msg.pos].recupHTML ; clog('- > prep', prep, dossBoColl[msg.pos])
+        if (prep != undefined) {
             webview.postMessage({
                 action: 'affichage',
                 html:    prep.html,
                 cible:   prep.cible,
                 pos:     msg.pos,
-                suivant: dossBoColl[msg.pos].contenu[0]
+                suivant: dossBoColl[msg.pos].contenu[0], 
+                liens:    prep.liens
             })
         }
     }

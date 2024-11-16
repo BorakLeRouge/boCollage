@@ -9,7 +9,7 @@
 // * * * Gestion de l'interface
 
 const vscode = acquireVsCodeApi() ;
-
+let   liens  = [] ;
 
 // ====================================================================================================================
 //  M   M  EEEEE   SSS    SSS     A     GGG   EEEEE       RRRR   EEEEE   CCC   EEEEE  PPPP   TTTTT  III   OOO   N   N
@@ -25,8 +25,9 @@ window.addEventListener('message', event => {
     const message = event.data ; 
 
     if (message.action == 'affichage') {
-    
+    clog('mes', message)
         document.getElementById(message.cible).innerHTML = message.html ;
+        if (message.liens) { liens = message.liens };
 
         vscode.postMessage({
             action:  'Affichage', 
@@ -75,7 +76,9 @@ function ouvrDoss(fichier, pos, cible) {
     }) ;
 }
 
-function ouvrFich(fichier) {
+function ouvrFich(indice) {
+    clog('>>', indice, liens)
+    let fichier = liens[indice] ;
     vscode.postMessage({
         action:  'Ouvrir Fichier',
         fichier: fichier

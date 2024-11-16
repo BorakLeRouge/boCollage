@@ -5,9 +5,11 @@ const { clog } = require('./clog.js') ;
 exports.DossierBoCollage = class DossierBoCollage {
     constructor(dossier, niveau) {
         this.dossier = dossier ;
+        this.niveau  = niveau ;
+        this.nom = '' ;
+        this.contenu = [] ;
         if (dossier != undefined && dossier != '') {
             this.nom     = path.basename(this.dossier) ;
-            this.niveau  = niveau ;
             let lectC = this.lectureContenu() ;
             if (lectC != undefined) {
                 this.contenu     = lectC.contenu ;
@@ -20,10 +22,17 @@ exports.DossierBoCollage = class DossierBoCollage {
     }
 
     get recupHTML() {
+        if (this.niveau == 0 && this.nom == '') {
+            return { 
+                html: '<p>Dossier non renseigné dans les paramètres.</p>',
+                cible: 'contenu' + this.niveau
+            }
+        }
+        if (this.nom == '') { return undefined }
         if (this.typeDossier) {
             return { html: this.recupHTMLDossier(), cible: 'contenu' + this.niveau }
         } else {
-            return { html: this.recupHTMLFichier(), cible: 'contenu' + this.niveau }
+            return { html: this.recupHTMLFichier(), cible: 'contenu' + this.niveau, liens: this.contenu }
         }
     }
 
@@ -38,7 +47,7 @@ exports.DossierBoCollage = class DossierBoCollage {
             let dossiers = [] ;
             for(let n of dir) {
                 let f = path.join(this.dossier, n)
-                if (f.substring(0, 1) != '.') {
+                if (n.substring(0, 1) != '.') {
                     if (fs.lstatSync(f).isDirectory()) {
                         nomDoss.push(n) ;
                         dossiers.push(f) ;
@@ -71,13 +80,9 @@ exports.DossierBoCollage = class DossierBoCollage {
     recupHTMLFichier() {
         let html = '<br />' ;
         for (let i in this.liste) {
-            html += '<span onclick="ouvrFich(\''+this.contenu[i]+'\')" class="lien">' + this.liste[i] + '</span><br />' + "\r\n" ;
+            html += '<span onclick="ouvrFich('+i+')" class="lien">' + this.liste[i] + '</span><br />' + "\r\n" ;
         }
-        return html ;
+        return  html ;
     }
 
 }
- 
-
-
-

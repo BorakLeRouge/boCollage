@@ -15,8 +15,6 @@ function activate(context) {
     context.subscriptions.push(
 		  vscode.window.registerWebviewViewProvider('boCollView', provider)
     );
-
-	context.subscriptions.push(disposable);
 }
 
 function deactivate() {}

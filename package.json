@@ -2,11 +2,15 @@
   "name": "bocollage",
   "displayName": "boCollage",
   "description": "Bout de code à coller",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "publisher": "borakLeRouge",
   "icon": "icone.png",
   "engines": {
     "vscode": "^1.80.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BorakLeRouge/boCollage"
   },
   "categories": [
     "Other"
