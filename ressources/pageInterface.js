@@ -24,17 +24,19 @@ window.addEventListener('message', event => {
 
     const message = event.data ; 
 
-    if (message.action == 'affichage') {
-    clog('mes', message)
+    if (message.action == 'affichage' && message.html != undefined && document.getElementById(message.cible) != undefined) {
         document.getElementById(message.cible).innerHTML = message.html ;
         if (message.liens) { liens = message.liens };
 
-        vscode.postMessage({
-            action:  'Affichage', 
-            fichier: message.suivant,
-            pos:     message.pos + 1,
-            cible:   'contenu' + (message.pos + 1)
-        }) ;
+        // Le contenu suivant doit être affiché
+        if (message.typeDossier) {
+            vscode.postMessage({
+                action:  'Affichage', 
+                fichier: message.suivant,
+                pos:     message.pos + 1,
+                cible:   'contenu' + (message.pos + 1)
+            }) ;
+        }
 
     }
 
@@ -67,17 +69,17 @@ vscode.postMessage({
 //  A   A   CCC     T    III   OOO   N   N  SSSS
 // ================================================ 
 
-function ouvrDoss(fichier, pos, cible) {
+function ouvrDoss(fichier, pos, cible, noOption) {
     vscode.postMessage({
-        action:  'Affichage', 
-        fichier: fichier,
-        pos:     pos,
-        cible:   cible
+        action:   'Affichage', 
+        fichier:  fichier,
+        pos:      pos,
+        cible:    cible,
+        noOption: noOption
     }) ;
 }
 
 function ouvrFich(indice) {
-    clog('>>', indice, liens)
     let fichier = liens[indice] ;
     vscode.postMessage({
         action:  'Ouvrir Fichier',

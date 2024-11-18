@@ -21,7 +21,11 @@ exports.DossierBoCollage = class DossierBoCollage {
         }
     }
 
-    get recupHTML() {
+    set setPosition(position) {
+        this.position = position ;
+    }
+
+    get getHTML() {
         if (this.niveau == 0 && this.nom == '') {
             return { 
                 html: '<p>Dossier non renseigné dans les paramètres.</p>',
@@ -30,9 +34,11 @@ exports.DossierBoCollage = class DossierBoCollage {
         }
         if (this.nom == '') { return undefined }
         if (this.typeDossier) {
-            return { html: this.recupHTMLDossier(), cible: 'contenu' + this.niveau }
+            let {html, select} = this.recupHTMLDossier() ;
+            return { html, select, cible: 'contenu' + this.niveau, typeDossier: this.typeDossier  }
         } else {
-            return { html: this.recupHTMLFichier(), cible: 'contenu' + this.niveau, liens: this.contenu }
+            let {html, select} = this.recupHTMLFichier() ;
+            return { html, select, cible: 'contenu' + this.niveau, liens: this.contenu, typeDossier: this.typeDossier }
         }
     }
 
@@ -68,13 +74,19 @@ exports.DossierBoCollage = class DossierBoCollage {
     }
 
     recupHTMLDossier() {
-        let html = '<select id="select'+this.niveau+'" onchange="ouvrDoss(this.value, '+(this.niveau + 1)+', \'contenu'+(this.niveau + 1)+'\')">' + "\r\n" ;
+        let html = '<select id="select'+this.niveau+'" onchange="ouvrDoss(this.value, '+(this.niveau + 1)+', \'contenu'+(this.niveau + 1)+'\',this.selectedIndex)">' + "\r\n" ;
+        let select = 0 ;
         for (let i in this.liste) {
-            html += '<option value="'+this.contenu[i]+'">' + this.liste[i] + '</option>' + "\r\n" ;
+            let sel = '' ;
+            if (this.position == this.contenu[i]) {
+                sel = ' selected="selected"' ; 
+                select = i ;
+            }
+            html += '<option value="'+this.contenu[i]+'"'+sel+'>' + this.liste[i] + '</option>' + "\r\n" ;
         }
         html += '</select><br />' + "\r\n" ;
         html += '<div id="contenu'+(this.niveau + 1)+'"></div>' ;
-        return html ;
+        return {html, select} ;
     }
 
     recupHTMLFichier() {
@@ -82,7 +94,7 @@ exports.DossierBoCollage = class DossierBoCollage {
         for (let i in this.liste) {
             html += '<span onclick="ouvrFich('+i+')" class="lien">' + this.liste[i] + '</span><br />' + "\r\n" ;
         }
-        return  html ;
+        return {html, select: 0} ;
     }
 
 }

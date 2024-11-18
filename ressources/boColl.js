@@ -3,6 +3,8 @@ const vscode = require('vscode') ;
 const fs     = require('fs') ;
 const path   = require('path') ;
  
+let   positions = [] ;
+
 const { clog } = require('./clog.js') ;
 
 const configuration  = vscode.workspace.getConfiguration('boCollage') ;
@@ -47,7 +49,10 @@ const boColl = function(context) {
                 // ===============================================================================================
                 // * * * ACTION Message
                 if (msg.action == 'Affichage') {
-                    affichage(webviewView.webview, msg) ;
+                    if(msg.noOption != undefined) {
+                        positions[msg.pos - 1] = msg.fichier ;
+                    }
+                    affichage(webviewView.webview, msg, positions) ;
                 }
                 if (msg.action == 'Ouvrir Fichier') {
                     if (fs.existsSync(msg.fichier)) {
@@ -101,23 +106,26 @@ async function PreparationAffichage(context, webview, dossierInit = '') {
 //  A   A   CCC     T    III   OOO   N   N  SSSS
 // ================================================
 // * * * Actions à traiter
-function affichage(webview, msg) {
-    if(msg.action == 'Affichage') {  clog('affichage '+msg.pos, msg)
+function affichage(webview, msg, positions) {
+    if(msg.action == 'Affichage') {
         // Lecture du fichier
         if (msg.pos == 0) {
             msg.fichier = dossierDeStockage ;
         }
         dossBoColl[msg.pos] = new DossierBoCollage(msg.fichier, msg.pos) ;
         // PreparationAffichage(context, webviewView.webview) ;
-        let prep = dossBoColl[msg.pos].recupHTML ; clog('- > prep', prep, dossBoColl[msg.pos])
+        dossBoColl[msg.pos].setPosition = positions[msg.pos] ;
+        let prep = dossBoColl[msg.pos].getHTML ;
         if (prep != undefined) {
             webview.postMessage({
-                action: 'affichage',
-                html:    prep.html,
-                cible:   prep.cible,
-                pos:     msg.pos,
-                suivant: dossBoColl[msg.pos].contenu[0], 
-                liens:    prep.liens
+                action:      'affichage',
+                html:        prep.html,
+                cible:       prep.cible,
+                pos:         msg.pos,
+                suivant:     dossBoColl[msg.pos].contenu[prep.select], 
+                liens:       prep.liens, 
+                typeDossier: prep.typeDossier,
+                select:      prep.select
             })
         }
     }
