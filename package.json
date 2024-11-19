@@ -2,7 +2,7 @@
   "name": "bocollage",
   "displayName": "boCollage",
   "description": "Bout de code à coller",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "publisher": "borakLeRouge",
   "icon": "icone.png",
   "engines": {
@@ -21,7 +21,11 @@
     "commands": [
        {
           "command": "boCollage.raffraichirDepot",
-          "title": "BoCollage Raffraichir le dépot de paramètre."
+          "title": "BoCollage - Raffraichir le dépot de paramètre."
+       } ,
+       {
+          "command": "boCollage.ouvrirDossier",
+          "title": "BoCollage - Ouvrir le dossier paramètre dans vscode."
        }
     ],
     "viewsContainers": {
@@ -41,6 +45,16 @@
           "name": ""
         }
       ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "boCollage.ouvrirDossier",
+          "title":   "Ouvrir le dossier dans vsCode" ,
+          "when":    "view == 'boCollView'" ,
+          "group":   "bocollage@1"
+        }
+      ] 
     },
 		"configuration": {
 			"title": "boCollage",

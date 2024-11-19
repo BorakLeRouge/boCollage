@@ -37,6 +37,18 @@ function activate(context) {
 	});
 	context.subscriptions.push(disposable);
 
+    // * * * Ouvrir le dossier dans vscode * * *
+	disposable = vscode.commands.registerCommand('boCollage.ouvrirDossier', async function () {
+        const configuration  = vscode.workspace.getConfiguration('boCollage') ;
+        let leDossier = configuration.dossierDeStockage ;
+        let leFich    = path.join(leDossier) ;
+        if (leDossier != undefined && leDossier.trim() != '' && fs.existsSync(leFich)) {
+            let uri = vscode.Uri.file(leFich) ;
+            vscode.commands.executeCommand('vscode.openFolder', uri, {forceNewWindow: true}) ;
+        }
+	});
+	context.subscriptions.push(disposable);
+
 }
 
 function deactivate() {}
