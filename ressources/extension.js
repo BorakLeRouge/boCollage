@@ -63,7 +63,7 @@ async function raffraichirDepot() {
     const configuration  = vscode.workspace.getConfiguration('boCollage') ;
     let dossierDeStockage = configuration.dossierDeStockage ;
     // let pointGit = path.join(dossierDeStockage, '.git') ; // test
-    let pointGit = path.join(dossierDeStockage, '.git', 'ORIG_HEAD') ;
+    let pointGit = path.join(dossierDeStockage, '.git') ;
     outputMngr.affich('dossier de stockage : '+dossierDeStockage)
     if (fs.existsSync(pointGit)) {
         let   cmd       = 'git pull' ;
