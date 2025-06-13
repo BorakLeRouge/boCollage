@@ -57,7 +57,12 @@ const boColl = function(context) {
                 if (msg.action == 'Ouvrir Fichier') {
                     if (fs.existsSync(msg.fichier)) {
                         let uri = vscode.Uri.file(msg.fichier) ;
-                        vscode.commands.executeCommand('vscode.open', uri) ;
+                        let ext = path.extname(msg.fichier).toLowerCase() ;
+                        if (['.txt', '.text', '.cbl', '.cobol', '.cob', '.md', '.js', '.rexx', '.css', '.html', '.yaml', '.sql', '.jcl'].includes(ext)) {
+                            vscode.window.showTextDocument(uri, { preview: true }) ;
+                        } else {
+                            vscode.commands.executeCommand('vscode.open', uri) ;
+                        }
                     } else {
                         vscode.window.showErrorMessage("Le fichier n'est plus présent") ;
                     }

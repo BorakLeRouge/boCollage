@@ -2,7 +2,7 @@
   "name": "bocollage",
   "displayName": "boCollage",
   "description": "Bout de code à coller",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "publisher": "borakLeRouge",
   "icon": "icone.png",
   "engines": {
