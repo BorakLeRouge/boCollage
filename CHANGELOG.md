@@ -1,5 +1,9 @@
 # Change Log
 
+[1.2.0] 13/07/2025
+- Ouverture des doc en prévisualisation.
+- Préparation pour Publication Marketplace (documentation).
+
 [1.0.0] 18/11/2024
 - Menu Ouverture du dossier de paramètre dans vscode.
 
